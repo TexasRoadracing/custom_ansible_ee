@@ -28,6 +28,9 @@ on:
     runs-on: [self-hosted, rhel10, onprem, ansible]
     environment: ${{ github.event_name }}
     steps:
+      - name: Clean up Podman directories
+        run: rm -rf /tmp/storage-run-992/containers /tmp/storage-run-992/libpod/tmp
+
       - name: Checkout repo
         uses: actions/checkout@v6
         with:
