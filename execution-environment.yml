@@ -1,9 +1,6 @@
 ---
 version: 3
 
-build_arg_defaults:
-  ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: '--pre'
-
 dependencies:
   python:
     - psycopg2
@@ -24,17 +21,17 @@ images:
 
 additional_build_steps:
   prepend_galaxy:
-    - ARG AAP_PRIVATE_AUTOMATION_HUB_TOKEN
-    - ENV AAP_PRIVATE_AUTOMATION_HUB_TOKEN=$AAP_PRIVATE_AUTOMATION_HUB_TOKEN
+    - ARG AUTOMATIONHUB_TOKEN
+    - ENV AUTOMATIONHUB_TOKEN=$AUTOMATIONHUB_TOKEN
     - ENV ANSIBLE_GALAXY_SERVER_LIST='published,certified,validated,community'
     - ENV ANSIBLE_GALAXY_SERVER_VALIDATED_URL='https://aap.texasroadracing.com/pulp_ansible/galaxy/rh-certified/'
-    - ENV ANSIBLE_GALAXY_SERVER_VALIDATED_TOKEN=$AAP_PRIVATE_AUTOMATION_HUB_TOKEN
+    - ENV ANSIBLE_GALAXY_SERVER_VALIDATED_TOKEN=$AUTOMATIONHUB_TOKEN
     - ENV ANSIBLE_GALAXY_SERVER_VALIDATED_URL='https://aap.texasroadracing.com/pulp_ansible/galaxy/validated/'
-    - ENV ANSIBLE_GALAXY_SERVER_VALIDATED_TOKEN=$AAP_PRIVATE_AUTOMATION_HUB_TOKEN
+    - ENV ANSIBLE_GALAXY_SERVER_VALIDATED_TOKEN=$AUTOMATIONHUB_TOKEN
     - ENV ANSIBLE_GALAXY_SERVER_COMMUNITY_URL='https://aap.texasroadracing.com/pulp_ansible/galaxy/community/'
-    - ENV ANSIBLE_GALAXY_SERVER_COMMUNITY_TOKEN=$AAP_PRIVATE_AUTOMATION_HUB_TOKEN
+    - ENV ANSIBLE_GALAXY_SERVER_COMMUNITY_TOKEN=$AUTOMATIONHUB_TOKEN
     - ENV ANSIBLE_GALAXY_SERVER_PUBLISHED_URL='https://aap.texasroadracing.com/pulp_ansible/galaxy/published/'
-    - ENV ANSIBLE_GALAXY_SERVER_PUBLISHED_TOKEN=$AAP_PRIVATE_AUTOMATION_HUB_TOKEN
+    - ENV ANSIBLE_GALAXY_SERVER_PUBLISHED_TOKEN=$AUTOMATIONHUB_TOKEN
     # - ARG NO_PROXY=.prci.com,.prog1.com,.local,.progdmz.com,.proghsz.com,.proghszq.com,.prog1d.com,.prog1qa.com,localhost,.hclscloud.net,.icmlab.com,.pgrapps.com,.pgrappsdev.com,.pgrappsqa.com,ihost.mymitchell.com,lyncdiscoverinternal.progressive.com,127.0.0.1,10.0.0.0/8,170.218.0.0/16,pgr.jamfcloud.com,169.254.169.254,127.0.0.1,10.localhost,crl3.prci.com
     # - ARG no_proxy=.prci.com,.prog1.com,.local,.progdmz.com,.proghsz.com,.proghszq.com,.prog1d.com,.prog1qa.com,localhost,.hclscloud.net,.icmlab.com,.pgrapps.com,.pgrappsdev.com,.pgrappsqa.com,ihost.mymitchell.com,lyncdiscoverinternal.progressive.com,127.0.0.1,10.0.0.0/8,170.218.0.0/16,pgr.jamfcloud.com,169.254.169.254,127.0.0.1,10.localhost,crl3.prci.com
     # - ARG http_proxy=http://servercache.prci.com:55000
@@ -53,4 +50,3 @@ additional_build_steps:
 
   prepend_final:
     - ENV PKGMGR_OPTS="--nodocs --setopt=install_weak_deps=0 --setopt=rhocp-4.12-for-rhel-8-x86_64-rpms.enabled=true"
-...
