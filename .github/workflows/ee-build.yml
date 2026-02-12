@@ -25,7 +25,7 @@ on:
 jobs:
   debug:
     if: github.event_name == 'pull_request_target'
-    runs-on: [self-hosted, rhel10, onprem, ansible]
+    runs-on: [self-hosted, Linux, X64]
     environment: test
     steps:
       - name: Checkout repo
@@ -63,7 +63,7 @@ jobs:
   build-ee:
     outputs:
       push_success: ${{ steps.push_to_ghcr.outputs.push_success }}
-    runs-on: [self-hosted, rhel10, onprem, ansible]
+    runs-on: [self-hosted, Linux, X64]
     environment: ${{ github.event_name }}
     steps:
       - name: Checkout repo
@@ -183,7 +183,7 @@ jobs:
   post-comment:
     if: github.event_name == 'pull_request_target'
     needs: build-ee
-    runs-on: [self-hosted, rhel10, onprem, ansible]
+    runs-on: [self-hosted, Linux, X64]
     steps:
       - name: Checkout
         uses: actions/checkout@v6
