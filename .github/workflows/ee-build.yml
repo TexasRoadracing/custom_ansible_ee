@@ -3,6 +3,9 @@
 name: Build and release execution environment
 
 on:
+  push:
+    branches:
+      - main
   workflow_call:
     inputs:
       registry:
