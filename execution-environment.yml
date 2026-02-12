@@ -1,40 +1,52 @@
 ---
 version: 3
 
-build_arg_defaults:
-  ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: '--pre'
-
 dependencies:
-  ansible_core:
-    package_pip: ansible-core
-  ansible_runner:
-    package_pip: ansible-runner
-  galaxy: requirements.yml
-  python: requirements.txt
-  system: bindep.txt
+  python:
+    - psycopg2
+    - psycopg2-binary
+
+  system:
+    - libpq-devel
+    - systemd-devel
+    - gcc
+    - python3.11-devel
+
+options:
+  package_manager_path: /usr/bin/microdnf
 
 images:
   base_image:
-    name: trrel9pod.texasroadracing.com/ansible-automation-platform-25/ee-minimal-rhel9:latest 
-
-additional_build_files:
-    - src: files/ansible.cfg
-      dest: configs
+    name: aap.texasroadracing.com/ansible-automation-platform-26/ee-supported-rhel9:latest
 
 additional_build_steps:
-  prepend_base:
-    - RUN echo This is a prepend base command!
-    # Enable Non-default stream before packages provided by it can be installed. (optional)
-    # - RUN $PKGMGR module enable postgresql:15 -y
-    # - RUN $PKGMGR install -y postgresql
   prepend_galaxy:
-    - COPY _build/configs/ansible.cfg /etc/ansible/ansible.cfg
+    - ARG AUTOMATIONHUB_TOKEN
+    - ENV AUTOMATIONHUB_TOKEN=$AUTOMATIONHUB_TOKEN
+    - ENV ANSIBLE_GALAXY_SERVER_LIST='published,certified,validated,community'
+    - ENV ANSIBLE_GALAXY_SERVER_VALIDATED_URL='https://aap.texasroadracing.com/pulp_ansible/galaxy/rh-certified/'
+    - ENV ANSIBLE_GALAXY_SERVER_VALIDATED_TOKEN=$AUTOMATIONHUB_TOKEN
+    - ENV ANSIBLE_GALAXY_SERVER_VALIDATED_URL='https://aap.texasroadracing.com/pulp_ansible/galaxy/validated/'
+    - ENV ANSIBLE_GALAXY_SERVER_VALIDATED_TOKEN=$AUTOMATIONHUB_TOKEN
+    - ENV ANSIBLE_GALAXY_SERVER_COMMUNITY_URL='https://aap.texasroadracing.com/pulp_ansible/galaxy/community/'
+    - ENV ANSIBLE_GALAXY_SERVER_COMMUNITY_TOKEN=$AUTOMATIONHUB_TOKEN
+    - ENV ANSIBLE_GALAXY_SERVER_PUBLISHED_URL='https://aap.texasroadracing.com/pulp_ansible/galaxy/published/'
+    - ENV ANSIBLE_GALAXY_SERVER_PUBLISHED_TOKEN=$AUTOMATIONHUB_TOKEN
+    # - ARG NO_PROXY=.prci.com,.prog1.com,.local,.progdmz.com,.proghsz.com,.proghszq.com,.prog1d.com,.prog1qa.com,localhost,.hclscloud.net,.icmlab.com,.pgrapps.com,.pgrappsdev.com,.pgrappsqa.com,ihost.mymitchell.com,lyncdiscoverinternal.progressive.com,127.0.0.1,10.0.0.0/8,170.218.0.0/16,pgr.jamfcloud.com,169.254.169.254,127.0.0.1,10.localhost,crl3.prci.com
+    # - ARG no_proxy=.prci.com,.prog1.com,.local,.progdmz.com,.proghsz.com,.proghszq.com,.prog1d.com,.prog1qa.com,localhost,.hclscloud.net,.icmlab.com,.pgrapps.com,.pgrappsdev.com,.pgrappsqa.com,ihost.mymitchell.com,lyncdiscoverinternal.progressive.com,127.0.0.1,10.0.0.0/8,170.218.0.0/16,pgr.jamfcloud.com,169.254.169.254,127.0.0.1,10.localhost,crl3.prci.com
+    # - ARG http_proxy=http://servercache.prci.com:55000
+    # - ARG https_proxy=http://servercache.prci.com:55000
 
-  prepend_final: |
-    RUN whoami
-    RUN cat /etc/os-release
-  append_final:
-    - RUN echo This is a post-install command!
-    - RUN ls -la /etc
-...
+  prepend_base:
+    - RUN pip3 config set --global global.index-url http://trrpypi.texasroadracing.com:3141
+    # - ARG $AAP_ARTIFACTORY_URL_TOKEN
+    # - ENV AAP_ARTIFACTORY_URL_TOKEN=$AAP_ARTIFACTORY_URL_TOKEN
+    # - RUN pip3 config set -v --global global.index-url $AAP_ARTIFACTORY_URL_TOKEN
+    # - RUN curl -so /etc/pki/ca-trust/source/anchors/prgpkicertchain.pem http://crl3.prci.com/Progressive%20PKI%20G3.ca-bundle.crt
+    # - RUN update-ca-trust extract
 
+  prepend_builder:
+    - ENV PKGMGR_OPTS="--nodocs --setopt=install_weak_deps=0 --setopt=rhocp-4.12-for-rhel-8-x86_64-rpms.enabled=true"
+
+  prepend_final:
+    - ENV PKGMGR_OPTS="--nodocs --setopt=install_weak_deps=0 --setopt=rhocp-4.12-for-rhel-8-x86_64-rpms.enabled=true"
