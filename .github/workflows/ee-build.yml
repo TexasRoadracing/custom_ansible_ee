@@ -24,7 +24,7 @@ on:
 
   build-ee:
     outputs:
-      push_success: ${{ steps.push_to_ghcr.outputs.push_success }}
+      push_success: ${{ steps.push_to_pah.outputs.push_success }}
     runs-on: [self-hosted, rhel10, onprem, ansible]
     environment: ${{ github.event_name }}
     steps:
@@ -46,7 +46,6 @@ on:
         run: |
           echo "EE=`yq -r '.options.tags[0]' 'execution-environment.yml'`" >> $GITHUB_ENV
           echo "EE_file=execution-environment.yml" >> $GITHUB_ENV
-          echo "IMAGE_REGISTRY=ghcr.io" >> $GITHUB_ENV
 
       - name: Define environment variables for PR
         if: github.event_name == 'pull_request_target'

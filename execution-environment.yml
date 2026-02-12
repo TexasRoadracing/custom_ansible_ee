@@ -2,6 +2,12 @@
 version: 3
 
 dependencies:
+  galaxy:
+    collections:
+      - community.general
+      - community.postgresql
+      - ansible.controller
+
   python:
     - psycopg2
     - psycopg2-binary
@@ -14,6 +20,8 @@ dependencies:
 
 options:
   package_manager_path: /usr/bin/microdnf
+  tags:
+    - aap.texasroadracing.com/texasroadracing/postgresql--supported-rhel9:1.2
 
 images:
   base_image:
