@@ -6,25 +6,25 @@ on:
   push:
     branches:
       - main
-  workflow_call:
-    inputs:
-      registry:
-        description: The registry to which the image will be pushed.
-        required: true
-        type: string
-    secrets:
-      registry_username:
-        required: true
-      registry_password:
-        required: true
-      registry_redhat_username:
-        required: false
-      registry_redhat_password:
-        required: false
+  # workflow_call:
+  #   inputs:
+  #     registry:
+  #       description: The registry to which the image will be pushed.
+  #       required: true
+  #       type: string
+  #   secrets:
+  #     registry_username:
+  #       required: true
+  #     registry_password:
+  #       required: true
+  #     registry_redhat_username:
+  #       required: false
+  #     registry_redhat_password:
+  #       required: false
 
   build-ee:
-    outputs:
-      push_success: ${{ steps.push_to_pah.outputs.push_success }}
+    # outputs:
+    #   push_success: ${{ steps.push_to_pah.outputs.push_success }}
     runs-on: [self-hosted, rhel10, onprem, ansible]
     steps:
       - name: Clean up Podman directories
