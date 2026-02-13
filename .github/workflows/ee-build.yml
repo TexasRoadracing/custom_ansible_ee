@@ -80,7 +80,7 @@ jobs:
           git fetch origin ${{ github.head_ref }}
 
       - name: Install python requirements
-        run: pip install ansible-core ansible-builder yp
+        run: pip install ansible-core ansible-builder yq
 
       - name: Define common environment variables
         run: |
