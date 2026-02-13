@@ -108,6 +108,7 @@ jobs:
           registry: ${{ secrets.AUTOMATION_HUB_URL }}
           username: ${{ secrets.AUTOMATIONHUB_USERNAME }}
           password: ${{ secrets.AUTOMATIONHUB_PASSWORD }}
+          auth_file_path: ${{github.workspace}}/auth.json
 
       - name: (devel) Build image and create artifact
         run: |
