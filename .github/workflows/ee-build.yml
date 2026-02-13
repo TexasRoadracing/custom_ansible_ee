@@ -22,9 +22,47 @@ on:
   #     registry_redhat_password:
   #       required: false
 
+jobs:
+  debug:
+    if: github.event_name == 'pull_request_target'
+    runs-on: ubuntu-latest
+    environment: test
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref != '' && github.event.pull_request.head.ref || 'main' }}
+
+      - name: Print working directory
+        run: pwd
+
+      - name: List files in the directory
+        run: ls -lahR
+
+      - name: List environment variables
+        run: printenv | sort
+
+      - name: Show git branch and commit
+        run: |
+          echo "Current Branch:"
+          git branch
+          echo "Current Commit:"
+          git rev-parse HEAD
+
+      - name: Fetch all branches
+        run: git fetch --all
+
+      - name: List all remote branches
+        run: git branch -r
+
+      - name: Show detailed git diff
+        run: git diff origin/main
+
   build-ee:
-    # outputs:
-    #   push_success: ${{ steps.push_to_pah.outputs.push_success }}
+    outputs:
+      push_success: ${{ steps.push_to_pah.outputs.push_success }}
     runs-on: [self-hosted, rhel10, onprem, ansible]
     steps:
       - name: Clean up Podman directories
