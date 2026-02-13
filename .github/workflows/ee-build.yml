@@ -79,8 +79,8 @@ jobs:
           git fetch origin ${{ github.base_ref }}
           git fetch origin ${{ github.head_ref }}
 
-      - name: Install python requirements (ADT)
-        run: pip install ansible-dev-tools yq
+      - name: Install python requirements
+        run: pip install ansible-core ansible-builder yp
 
       - name: Define common environment variables
         run: |
