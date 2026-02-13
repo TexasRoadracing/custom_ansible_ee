@@ -21,7 +21,7 @@ dependencies:
 options:
   package_manager_path: /usr/bin/microdnf
   tags:
-    - aap.texasroadracing.com/texasroadracing/postgresql--supported-rhel9:1.2
+    - aap.texasroadracing.com/texasroadracing/postgresql-supported-rhel9:1.2
 
 images:
   base_image:

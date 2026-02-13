@@ -118,7 +118,7 @@ jobs:
           ansible-builder build -v 3 \
           --build-arg AUTOMATIONHUB_TOKEN=${{ secrets.AUTOMATIONHUB_TOKEN }} \
           --context=../${{ env.EE }} \
-          --tag=${{ env.EE }}:${{ env.IMAGE_TAG }}
+          --tag=${{ env.EE }}
 
       #     # Create artifact file
       #     COMMANDS_FILE="commands-${{ env.EE }}.txt"
