@@ -2,14 +2,15 @@
 version: 3
 
 dependencies:
+  python_interpreter:
+    package_system: python311
+    python_path: /usr/bin/python3.11
+
   galaxy:
     collections:
       - name: community.general
       - name: community.postgresql
       - name: ansible.controller
-  python_interpreter:
-    package_system: python311
-    python_path: /usr/bin/python3.11
 
   python:
     - psycopg2
