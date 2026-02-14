@@ -6,21 +6,6 @@ on:
   push:
     branches:
       - main
-  # workflow_call:
-  #   inputs:
-  #     registry:
-  #       description: The registry to which the image will be pushed.
-  #       required: true
-  #       type: string
-  #   secrets:
-  #     registry_username:
-  #       required: true
-  #     registry_password:
-  #       required: true
-  #     registry_redhat_username:
-  #       required: false
-  #     registry_redhat_password:
-  #       required: false
 
 jobs:
   debug:
