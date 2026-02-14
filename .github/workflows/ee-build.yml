@@ -118,6 +118,7 @@ jobs:
         run: |
           ansible-builder build -v 3 \
           --no-cache \
+          --build-arg AUTOMATION_HUB_URL=${{ secrets.AUTOMATION_HUB_URL }} \
           --build-arg AUTOMATIONHUB_TOKEN=${{ secrets.AUTOMATIONHUB_TOKEN }} \
           --build-arg ANSIBLE_GALAXY_CLI_COLLECTION_OPTS='--ignore-certs -vvvvv'
 
