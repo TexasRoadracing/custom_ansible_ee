@@ -25,7 +25,7 @@ dependencies:
 options:
   package_manager_path: /usr/bin/microdnf
   tags:
-    - aap.texasroadracing.com/texasroadracing/postgresql-supported-rhel9:1.2
+    - aap.texasroadracing.com/texasroadracing/postgresql-supported-rhel9:1.3
 
 images:
   base_image:
@@ -34,20 +34,22 @@ images:
 additional_build_steps:
   prepend_galaxy:
     - ARG AUTOMATIONHUB_TOKEN
+    - ARG AUTOMATION_HUB_URL
     - ENV AUTOMATIONHUB_TOKEN=$AUTOMATIONHUB_TOKEN
+    - ENV AUTOMATION_HUB_URL=$AUTOMATION_HUB_URL
     - ENV ANSIBLE_GALAXY_SERVER_LIST='published,certified,validated,community'
-    - ENV ANSIBLE_GALAXY_SERVER_CERTIFIED_URL='https://aap.texasroadracing.com/pulp_ansible/galaxy/rh-certified/'
+    - ENV ANSIBLE_GALAXY_SERVER_CERTIFIED_URL='https://$AUTOMATION_HUB_URL/pulp_ansible/galaxy/rh-certified/'
     - ENV ANSIBLE_GALAXY_SERVER_CERTIFIED_TOKEN=$AUTOMATIONHUB_TOKEN
-    - ENV ANSIBLE_GALAXY_SERVER_VALIDATED_URL='https://aap.texasroadracing.com/pulp_ansible/galaxy/validated/'
+    - ENV ANSIBLE_GALAXY_SERVER_VALIDATED_URL='https://$AUTOMATION_HUB_URL/pulp_ansible/galaxy/validated/'
     - ENV ANSIBLE_GALAXY_SERVER_VALIDATED_TOKEN=$AUTOMATIONHUB_TOKEN
-    - ENV ANSIBLE_GALAXY_SERVER_COMMUNITY_URL='https://aap.texasroadracing.com/pulp_ansible/galaxy/community/'
+    - ENV ANSIBLE_GALAXY_SERVER_COMMUNITY_URL='https://$AUTOMATION_HUB_URL/pulp_ansible/galaxy/community/'
     - ENV ANSIBLE_GALAXY_SERVER_COMMUNITY_TOKEN=$AUTOMATIONHUB_TOKEN
-    - ENV ANSIBLE_GALAXY_SERVER_PUBLISHED_URL='https://aap.texasroadracing.com/pulp_ansible/galaxy/published/'
+    - ENV ANSIBLE_GALAXY_SERVER_PUBLISHED_URL='https://$AUTOMATION_HUB_URL/pulp_ansible/galaxy/published/'
     - ENV ANSIBLE_GALAXY_SERVER_PUBLISHED_TOKEN=$AUTOMATIONHUB_TOKEN
-    # - ARG NO_PROXY=.prci.com,.prog1.com,.local,.progdmz.com,.proghsz.com,.proghszq.com,.prog1d.com,.prog1qa.com,localhost,.hclscloud.net,.icmlab.com,.pgrapps.com,.pgrappsdev.com,.pgrappsqa.com,ihost.mymitchell.com,lyncdiscoverinternal.progressive.com,127.0.0.1,10.0.0.0/8,170.218.0.0/16,pgr.jamfcloud.com,169.254.169.254,127.0.0.1,10.localhost,crl3.prci.com
-    # - ARG no_proxy=.prci.com,.prog1.com,.local,.progdmz.com,.proghsz.com,.proghszq.com,.prog1d.com,.prog1qa.com,localhost,.hclscloud.net,.icmlab.com,.pgrapps.com,.pgrappsdev.com,.pgrappsqa.com,ihost.mymitchell.com,lyncdiscoverinternal.progressive.com,127.0.0.1,10.0.0.0/8,170.218.0.0/16,pgr.jamfcloud.com,169.254.169.254,127.0.0.1,10.localhost,crl3.prci.com
-    # - ARG http_proxy=http://servercache.prci.com:55000
-    # - ARG https_proxy=http://servercache.prci.com:55000
+    # - ARG NO_PROXY=.texasroadracing.com
+    # - ARG no_proxy=.texasroadracing.com
+    # - ARG http_proxy=http://proxy.texasroadracing.com:55000
+    # - ARG https_proxy=http://proxy.texasroadracing.com:55000
 
   prepend_builder:
     - ENV PKGMGR_OPTS="--nodocs --setopt=install_weak_deps=0 --setopt=rhocp-4.12-for-rhel-8-x86_64-rpms.enabled=true"
