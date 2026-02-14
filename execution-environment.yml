@@ -32,8 +32,8 @@ additional_build_steps:
     - ARG AUTOMATIONHUB_TOKEN
     - ENV AUTOMATIONHUB_TOKEN=$AUTOMATIONHUB_TOKEN
     - ENV ANSIBLE_GALAXY_SERVER_LIST='published,certified,validated,community'
-    - ENV ANSIBLE_GALAXY_SERVER_VALIDATED_URL='https://aap.texasroadracing.com/pulp_ansible/galaxy/rh-certified/'
-    - ENV ANSIBLE_GALAXY_SERVER_VALIDATED_TOKEN=$AUTOMATIONHUB_TOKEN
+    - ENV ANSIBLE_GALAXY_SERVER_CERTIFIED_URL='https://aap.texasroadracing.com/pulp_ansible/galaxy/rh-certified/'
+    - ENV ANSIBLE_GALAXY_SERVER_CERTIFIED_TOKEN=$AUTOMATIONHUB_TOKEN
     - ENV ANSIBLE_GALAXY_SERVER_VALIDATED_URL='https://aap.texasroadracing.com/pulp_ansible/galaxy/validated/'
     - ENV ANSIBLE_GALAXY_SERVER_VALIDATED_TOKEN=$AUTOMATIONHUB_TOKEN
     - ENV ANSIBLE_GALAXY_SERVER_COMMUNITY_URL='https://aap.texasroadracing.com/pulp_ansible/galaxy/community/'
@@ -44,8 +44,6 @@ additional_build_steps:
     # - ARG no_proxy=.prci.com,.prog1.com,.local,.progdmz.com,.proghsz.com,.proghszq.com,.prog1d.com,.prog1qa.com,localhost,.hclscloud.net,.icmlab.com,.pgrapps.com,.pgrappsdev.com,.pgrappsqa.com,ihost.mymitchell.com,lyncdiscoverinternal.progressive.com,127.0.0.1,10.0.0.0/8,170.218.0.0/16,pgr.jamfcloud.com,169.254.169.254,127.0.0.1,10.localhost,crl3.prci.com
     # - ARG http_proxy=http://servercache.prci.com:55000
     # - ARG https_proxy=http://servercache.prci.com:55000
-
-
 
   prepend_builder:
     - ENV PKGMGR_OPTS="--nodocs --setopt=install_weak_deps=0 --setopt=rhocp-4.12-for-rhel-8-x86_64-rpms.enabled=true"
