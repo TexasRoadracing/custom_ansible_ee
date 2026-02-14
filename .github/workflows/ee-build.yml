@@ -121,47 +121,47 @@ jobs:
           --build-arg AUTOMATIONHUB_TOKEN=${{ secrets.AUTOMATIONHUB_TOKEN }} \
           --build-arg ANSIBLE_GALAXY_CLI_COLLECTION_OPTS='--ignore-certs -vvvvv'
 
-      #     # Create artifact file
-      #     COMMANDS_FILE="commands-${{ env.EE }}.txt"
-      #     echo "" >> $COMMANDS_FILE
-      #     echo "EE: ${{ env.EE }}" >> $COMMANDS_FILE
-      #     echo "" >> $COMMANDS_FILE
-      #     echo "\`\`\`" > $COMMANDS_FILE
-      #     echo "podman pull ${{ env.EE }}:${{ env.IMAGE_TAG }}" >> $COMMANDS_FILE
-      #     echo "\`\`\`" >> $COMMANDS_FILE
-      #     echo "<details>" >> $COMMANDS_FILE
-      #     echo "<summary><b>More info...</b></summary>" >> $COMMANDS_FILE
-      #     echo "" >> $COMMANDS_FILE
-      #     echo "#### Installed collections" >> $COMMANDS_FILE
-      #     echo "" >> $COMMANDS_FILE
-      #     echo "\`\`\`" >> $COMMANDS_FILE
-      #     podman run -it ${{ env.EE }}:${{ env.IMAGE_TAG }} ansible-galaxy collection list  >> $COMMANDS_FILE
-      #     echo "\`\`\`" >> $COMMANDS_FILE
-      #     echo "" >> $COMMANDS_FILE
-      #     echo "#### EE Testing" >> $COMMANDS_FILE
-      #     echo "" >> $COMMANDS_FILE
-      #     echo "\`\`\`" >> $COMMANDS_FILE
-      #     echo "Installed collections" >> $COMMANDS_FILE
-      #     ansible-navigator collections --eei ${{ env.EE }}:${{ env.IMAGE_TAG }} --mode stdout --pp never | grep "known_as" >> $COMMANDS_FILE
-      #     echo "\`\`\`" >> $COMMANDS_FILE
-      #     echo "" >> $COMMANDS_FILE
-      #     echo "\`\`\`" >> $COMMANDS_FILE
-      #     echo "Installed images" >> $COMMANDS_FILE
-      #     ansible-navigator images --eei ${{ env.EE }}:${{ env.IMAGE_TAG }} --mode stdout --pp never | grep "name_tag" >> $COMMANDS_FILE
-      #     echo "\`\`\`" >> $COMMANDS_FILE
-      #     echo "" >> $COMMANDS_FILE
-      #     echo "#### Ansible version" >> $COMMANDS_FILE
-      #     echo "" >> $COMMANDS_FILE
-      #     echo "\`\`\`" >> $COMMANDS_FILE
-      #     podman run -it ${{ env.EE }}:${{ env.IMAGE_TAG }} ansible --version  >> $COMMANDS_FILE
-      #     echo "\`\`\`" >> $COMMANDS_FILE
-      #     echo "</details>" >> $COMMANDS_FILE
+          # Create artifact file
+          COMMANDS_FILE="commands-${{ env.EE }}.txt"
+          echo "" >> $COMMANDS_FILE
+          echo "EE: ${{ env.EE }}" >> $COMMANDS_FILE
+          echo "" >> $COMMANDS_FILE
+          echo "\`\`\`" > $COMMANDS_FILE
+          echo "podman pull ${{ env.EE }}" >> $COMMANDS_FILE
+          echo "\`\`\`" >> $COMMANDS_FILE
+          echo "<details>" >> $COMMANDS_FILE
+          echo "<summary><b>More info...</b></summary>" >> $COMMANDS_FILE
+          echo "" >> $COMMANDS_FILE
+          echo "#### Installed collections" >> $COMMANDS_FILE
+          echo "" >> $COMMANDS_FILE
+          echo "\`\`\`" >> $COMMANDS_FILE
+          podman run -it ${{ env.EE }} ansible-galaxy collection list  >> $COMMANDS_FILE
+          echo "\`\`\`" >> $COMMANDS_FILE
+          echo "" >> $COMMANDS_FILE
+          echo "#### EE Testing" >> $COMMANDS_FILE
+          echo "" >> $COMMANDS_FILE
+          echo "\`\`\`" >> $COMMANDS_FILE
+          echo "Installed collections" >> $COMMANDS_FILE
+          ansible-navigator collections --eei ${{ env.EE }} --mode stdout --pp never | grep "known_as" >> $COMMANDS_FILE
+          echo "\`\`\`" >> $COMMANDS_FILE
+          echo "" >> $COMMANDS_FILE
+          echo "\`\`\`" >> $COMMANDS_FILE
+          echo "Installed images" >> $COMMANDS_FILE
+          ansible-navigator images --eei ${{ env.EE }} --mode stdout --pp never | grep "name_tag" >> $COMMANDS_FILE
+          echo "\`\`\`" >> $COMMANDS_FILE
+          echo "" >> $COMMANDS_FILE
+          echo "#### Ansible version" >> $COMMANDS_FILE
+          echo "" >> $COMMANDS_FILE
+          echo "\`\`\`" >> $COMMANDS_FILE
+          podman run -it ${{ env.EE }} ansible --version  >> $COMMANDS_FILE
+          echo "\`\`\`" >> $COMMANDS_FILE
+          echo "</details>" >> $COMMANDS_FILE
 
-      # - name: Upload build artifact
-      #   uses: coactions/upload-artifact@v4
-      #   with:
-      #     name: commands-${{ env.EE }}
-      #     path: ./commands-${{ env.EE }}.txt
+      - name: Upload build artifact
+        uses: coactions/upload-artifact@v4
+        with:
+          name: commands-${{ env.EE }}
+          path: ./commands-${{ env.EE }}.txt
 
       - name: Push To Private Automation Hub
         id: push_to_pah
@@ -178,42 +178,3 @@ jobs:
       #     echo "## Usage" >> $GITHUB_STEP_SUMMARY
       #     echo "Image pushed to repository: ${{ env.IMAGE_REGISTRY }}/${{ github.repository_owner }}/${{ env.EE }}:${{ env.IMAGE_TAG }}" >> $GITHUB_STEP_SUMMARY
       #     echo "> \`podman pull ${{ env.IMAGE_REGISTRY }}/${{ github.repository_owner }}/${{ env.EE }}:${{ env.IMAGE_TAG }}\`" >> $GITHUB_STEP_SUMMARY
-
-  # post-comment:
-  #   if: github.event_name == 'pull_request_target'
-  #   needs: build-ee
-  #   runs-on: [self-hosted, rhel10, onprem, ansible]
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v6
-
-  #     - name: Download Artifacts
-  #       uses: actions/download-artifact@v7
-
-  #     - name: Post Comment
-  #       uses: actions/github-script@v8
-  #       with:
-  #         script: |
-  #           const fs = require('fs');
-  #           const path = require('path');
-  #           let commentBody = '### **EE Images Built** \n\n';
-
-  #           const artifactsDirectory = './';  // Base directory where artifacts are downloaded
-  #           fs.readdirSync(artifactsDirectory, { withFileTypes: true }).forEach(dirent => {
-  #             if (dirent.isDirectory() && dirent.name.startsWith('commands-')) {
-  #               const artifactDirPath = path.join(artifactsDirectory, dirent.name);
-  #               fs.readdirSync(artifactDirPath).forEach(file => {
-  #                 const filePath = path.join(artifactDirPath, file);
-  #                 const content = fs.readFileSync(filePath, 'utf8');
-  #                 commentBody += content + '\n';
-  #               });
-  #             }
-  #           });
-
-  #           const prNumber = context.issue.number;
-  #           const repo = context.repo;
-  #           github.rest.issues.createComment({
-  #             ...repo,
-  #             issue_number: prNumber,
-  #             body: commentBody.trim()
-  #           });
