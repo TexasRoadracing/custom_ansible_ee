@@ -8,15 +8,16 @@ dependencies:
       - name: community.postgresql
       - name: ansible.controller
 
-  python:
-    - psycopg2
-    - psycopg2-binary
+  # python:
+  #   - psycopg2
+  #   - psycopg2-binary
 
   system:
     - libpq-devel
     - systemd-devel
     - gcc
     - python3.11-devel
+    - python3-psycopg2
 
 options:
   package_manager_path: /usr/bin/microdnf
