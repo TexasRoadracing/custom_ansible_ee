@@ -117,9 +117,9 @@ jobs:
       - name: Build image and create artifact
         run: |
           ansible-builder build -v 3 \
+          --no-cache \
           --build-arg AUTOMATIONHUB_TOKEN=${{ secrets.AUTOMATIONHUB_TOKEN }} \
-          --context=../${{ env.EE }} \
-          --tag=${{ env.EE }}
+          --build-arg ANSIBLE_GALAXY_CLI_COLLECTION_OPTS='--ignore-certs -vvvvv'
 
       #     # Create artifact file
       #     COMMANDS_FILE="commands-${{ env.EE }}.txt"

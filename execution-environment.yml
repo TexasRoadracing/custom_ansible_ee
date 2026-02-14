@@ -45,13 +45,13 @@ additional_build_steps:
     # - ARG http_proxy=http://servercache.prci.com:55000
     # - ARG https_proxy=http://servercache.prci.com:55000
 
-  prepend_base:
-    - RUN pip3 config set --global global.index-url http://trrpypi.texasroadracing.com:3141
-    # - ARG $AAP_ARTIFACTORY_URL_TOKEN
-    # - ENV AAP_ARTIFACTORY_URL_TOKEN=$AAP_ARTIFACTORY_URL_TOKEN
-    # - RUN pip3 config set -v --global global.index-url $AAP_ARTIFACTORY_URL_TOKEN
-    # - RUN curl -so /etc/pki/ca-trust/source/anchors/prgpkicertchain.pem http://crl3.prci.com/Progressive%20PKI%20G3.ca-bundle.crt
-    # - RUN update-ca-trust extract
+  # prepend_base:
+  #   - RUN pip3 config set --global global.index-url http://trrpypi.texasroadracing.com:3141
+  #   - ARG $AAP_ARTIFACTORY_URL_TOKEN
+  #   - ENV AAP_ARTIFACTORY_URL_TOKEN=$AAP_ARTIFACTORY_URL_TOKEN
+  #   - RUN pip3 config set -v --global global.index-url $AAP_ARTIFACTORY_URL_TOKEN
+  #   - RUN curl -so /etc/pki/ca-trust/source/anchors/prgpkicertchain.pem http://crl3.prci.com/Progressive%20PKI%20G3.ca-bundle.crt
+  #   - RUN update-ca-trust extract
 
   prepend_builder:
     - ENV PKGMGR_OPTS="--nodocs --setopt=install_weak_deps=0 --setopt=rhocp-4.12-for-rhel-8-x86_64-rpms.enabled=true"
