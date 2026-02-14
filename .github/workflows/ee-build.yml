@@ -105,7 +105,7 @@ jobs:
       - name: Login to Private Automation Hub
         uses: redhat-actions/podman-login@v1
         with:
-          registry: ${{ secrets.AUTOMATION_HUB_URL }}
+          registry: ${{ secrets.AUTOMATIONHUB_HOST }}
           username: ${{ secrets.AUTOMATIONHUB_USERNAME }}
           password: ${{ secrets.AUTOMATIONHUB_PASSWORD }}
           auth_file_path: ${{github.workspace}}/auth.json
