@@ -8,6 +8,7 @@ dependencies:
 
   python:
     - proxmoxer
+    - jmespath
 
   system:
     - libpq-devel
@@ -18,7 +19,7 @@ dependencies:
 options:
   package_manager_path: /usr/bin/microdnf
   tags:
-    - aap.texasroadracing.com/texasroadracing/proxmox-minimal-rhel9:1.0 
+    - aap.texasroadracing.com/texasroadracing/proxmox-minimal-rhel9:1.1
 
 images:
   base_image:
