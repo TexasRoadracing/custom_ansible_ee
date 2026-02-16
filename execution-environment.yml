@@ -6,15 +6,8 @@ dependencies:
     package_system: python311
     python_path: /usr/bin/python3.11
 
-  galaxy:
-    collections:
-      - name: community.general
-      - name: community.postgresql
-      - name: ansible.controller
-
   python:
-    - psycopg2
-    - psycopg2-binary
+    - proxmoxder
 
   system:
     - libpq-devel
@@ -25,11 +18,11 @@ dependencies:
 options:
   package_manager_path: /usr/bin/microdnf
   tags:
-    - aap.texasroadracing.com/texasroadracing/postgresql-supported-rhel9:1.4
+    - aap.texasroadracing.com/texasroadracing/proxmox-minimal-rhel9:1.0 
 
 images:
   base_image:
-    name: aap.texasroadracing.com/ansible-automation-platform-26/ee-supported-rhel9:latest
+    name: aap.texasroadracing.com/ansible-automation-platform-26/ee-minimal-rhel9:latest
 
 additional_build_steps:
   prepend_galaxy:
