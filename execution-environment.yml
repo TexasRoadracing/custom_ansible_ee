@@ -23,7 +23,7 @@ options:
 
 images:
   base_image:
-    name: aap.texasroadracing.com/ansible-automation-platform-26/ee-minimal-rhel9:latest
+    name: automationplatform.apps.trrocp4.texasroadracing.com/ansible-automation-platform-26/ee-minimal-rhel9:latest
 
 additional_build_steps:
   prepend_galaxy:
