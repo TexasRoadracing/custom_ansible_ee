@@ -19,7 +19,7 @@ dependencies:
 options:
   package_manager_path: /usr/bin/microdnf
   tags:
-    - texasroadracing/proxmox-minimal-rhel9:1.1
+    - automationplatform.apps.trrocp4.texasroadracing.com/texasroadracing/proxmox-minimal-rhel9:1.1
 
 images:
   base_image:
