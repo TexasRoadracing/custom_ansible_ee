@@ -5,6 +5,8 @@ dependencies:
   python_interpreter:
     package_system: python311
     python_path: /usr/bin/python3.11
+    ansible_core: '2.16.14'
+    ansible_runner: '2.4.2'
 
   python:
     - proxmoxer
